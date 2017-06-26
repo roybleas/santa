@@ -67,3 +67,5 @@ group :test do
   gem "launchy", "~> 2.4.2"
   gem "selenium-webdriver", "~> 3.4.0"
 end
+
+gem 'annotate'
