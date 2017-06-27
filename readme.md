@@ -1,4 +1,5 @@
-# A coding exercise
+# Secret Santas
+(A coding exercise)
 
 ## Restrictions when assigning the Secret Santas:
 - You cannot be your own Secret Santa.
@@ -16,6 +17,8 @@
  and can be used to to identify themselves to their Santa.
 - The number of participants may be different each year
 - A participant may not be included in each yearly event
+- It is valid to have a person who is not in a Santa list but all people referenced in the Santa list must be in the person list.
+
 #### Number of participants
 - There will be sufficient number for each person to have a valid Secret Santa allocated to them
 - The number will be a reasonable size of typically about 20 participants. Though no maximum will be set it is assumed to be 50 or less participants.
@@ -37,7 +40,7 @@
 - Previously loaded participants will have their details updated.
 - Overwritten participants details will not be kept.  
 - Replaces the current participants and any current Santa selection.
-- A participant who is no longer in the list will not cause them to be removed from the list of known persons.
+- A participant who is no longer in the list will not be removed from the list of known persons.
 
 ### Views
 - List of this year's participants.
@@ -46,12 +49,5 @@
 
 ### Actions
 - Load input file
-- Generate Santas for each participant
+- Generate a random Santas for each participant
 - Delete previous Santa lists older than current or previous year. This includes people who are no longer part of a saved Sanata list.
-
--Create a random recipient for each Santa where they are not their partner and not the previous year's recipient.  
-Store the Santa list
-View Santa list
-Distribute the name of the gift recipient to each Santa
-Redistribute the name of the gift recipient if their Santa forgets it
-Delete a participants list for a year and associated Santa's list. (Should this be allowed for the previous year?)
