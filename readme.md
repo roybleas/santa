@@ -51,3 +51,9 @@
 - Load input file
 - Generate a random Santas for each participant
 - Delete previous Santa lists older than current or previous year. This includes people who are no longer part of a saved Sanata list.
+
+## Database Design
+
+The Secret Santa event is an entity with many to many relationship to participants stored in the people table. Currently the Secret Santa has only one attribute - year. So just the people-secretsantas table has been created. Indexes have been created for each foreign key in the people-secretsantas table. (NB Rails model generate command requires --force-plural.)
+The previous_santa_id field could be selected from previous year record but the data is static once a new year record has been created makes it more convenient to access.
+The year field is assumed to contain clean data and contain a valid value for the current year and validated within the design model. Data cleaning will be done on the input data.
