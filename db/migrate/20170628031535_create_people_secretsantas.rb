@@ -9,8 +9,7 @@ class CreatePeopleSecretsantas < ActiveRecord::Migration
 
       t.timestamps null: false
     end
-    add_index :people_secretsantas, :santa_id
-    add_index :people_secretsantas, :partner_id
-    add_index :people_secretsantas, :previous_santa_id
+    add_index :people_secretsantas, :year
+    
   end
 end

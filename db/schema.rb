@@ -33,10 +33,8 @@ ActiveRecord::Schema.define(version: 20170628031535) do
     t.datetime "updated_at",        null: false
   end
 
-  add_index "people_secretsantas", ["partner_id"], name: "index_people_secretsantas_on_partner_id", using: :btree
   add_index "people_secretsantas", ["person_id"], name: "index_people_secretsantas_on_person_id", using: :btree
-  add_index "people_secretsantas", ["previous_santa_id"], name: "index_people_secretsantas_on_previous_santa_id", using: :btree
-  add_index "people_secretsantas", ["santa_id"], name: "index_people_secretsantas_on_santa_id", using: :btree
+  add_index "people_secretsantas", ["year"], name: "index_people_secretsantas_on_year", using: :btree
 
   add_foreign_key "people_secretsantas", "people"
 end
