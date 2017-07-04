@@ -2,6 +2,10 @@ Rails.application.routes.draw do
 
   root 'home_page#home'
   get 'load' => 'home_page#load'
+  post 'import' => 'home_page#import'
+
+
+
 
     # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

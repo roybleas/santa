@@ -1,2 +1,15 @@
-<h1>HomePage#load/h1>
-<p>Find me in app/views/home_page/home.html.erb</p>
+<div class: "container">
+
+  <h1>Load file of Secret Santa participants</h1>
+
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <%= form_tag import_path multipart: true do %>
+        <%= label_tag('currentyear', 'Year:')%>
+        <%=  number_field_tag 'currentyear', Date.today.year , in: 2010...2030 %>
+        <%= file_field_tag :file %>
+        <%= submit_tag "Import" %>
+      <% end %>
+    </div>
+  </div>
+</div>

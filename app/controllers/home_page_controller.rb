@@ -9,4 +9,8 @@ class HomePageController < ApplicationController
 
   def load
   end
+
+  def import
+    redirect_to root_path
+  end
 end

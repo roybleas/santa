@@ -5,4 +5,6 @@ RSpec.feature "HomePages", type: :feature do
     visit root_path
     expect(current_path).to eq load_path
   end
+
+
 end
