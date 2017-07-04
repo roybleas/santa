@@ -1,14 +1,36 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Santa</title>
+  <title>Secret Santa</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
 <body>
+  <nav class="navbar navbar-default " role="navigation" >
+  	<div class="container-fluid">
+  		<div class="navbar-header">
+  			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+  				<span class="sr-only">Toggle navigation</span>
+  				<span class="icon-bar"></span>
+  				<span class="icon-bar"></span>
+  				<span class="icon-bar"></span>
+  			</button>
+  		  <%= link_to "Secret Santa", root_path, class: "navbar-brand", id: "brand__santa" %>
+
+      </div>
+  	</div>
+  </nav>
+
+  <div class="container" >
+    <% flash.each do |key, value| %>
+    	<%= content_tag(:div, value, class: "alert alert-#{key}" ) %>
+    <% end %>
+  </div>
 
 <%= yield %>
+
+<%= debug(params) if Rails.env.development? %>
 
 </body>
 </html>

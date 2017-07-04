@@ -16,3 +16,8 @@
  // "bootstrap-sprockets" must be imported before "bootstrap" and "bootstrap/variables"
  @import "bootstrap-sprockets";
  @import "bootstrap";
+
+ #brand__santa  {
+   color: #35719b;
+   font-weight: bold;
+ }
