@@ -1,15 +1,24 @@
-<div class: "container">
-
-  <h1>Load file of Secret Santa participants</h1>
-
-  <div class="panel panel-default">
-    <div class="panel-body">
-      <%= form_tag import_path multipart: true do %>
-        <%= label_tag('currentyear', 'Year:')%>
-        <%=  number_field_tag 'currentyear', Date.today.year , in: 2010...2030 %>
-        <%= file_field_tag :file %>
-        <%= submit_tag "Import" %>
-      <% end %>
+<div class="container">
+  <%= form_tag import_path multipart: true do %>
+    <h3>Import file of Secret Santa participants</h3>
+    <div class="form-horizontal">
+      <div class="form-group">
+        <%= label_tag('currentyear', 'Year:', class: 'col-sm-1')%>
+        <div class="col-sm-2">
+          <%=  number_field_tag 'currentyear', @this_year , in: @minimum_year...2030 , class: 'form-control' %>
+        </div>
+        <div class="col-sm-9"></div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-6">
+          <%= file_field_tag :file , class: 'form-control'%>
+        </div>
+      </div>
+      <div class="form-group" >
+        <div class="col-sm-12">
+          <%= submit_tag "Import" , class: "btn btn-default"%>
+        </div>
+      </div>
     </div>
-  </div>
+  <% end %>
 </div>
