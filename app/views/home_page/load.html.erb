@@ -1,7 +1,8 @@
 <div class="container">
-  <%= form_tag import_path multipart: true do %>
+
+   <%= form_tag import_path, multipart: true do %>
     <h3>Import file of Secret Santa participants</h3>
-    <div class="form-horizontal">
+     <div class="form-horizontal">
       <div class="form-group">
         <%= label_tag('currentyear', 'Year:', class: 'col-sm-1')%>
         <div class="col-sm-2">
@@ -21,4 +22,5 @@
       </div>
     </div>
   <% end %>
+
 </div>
