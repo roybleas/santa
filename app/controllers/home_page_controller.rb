@@ -1,4 +1,5 @@
 class HomePageController < ApplicationController
+
   def home
     @year = PeopleSecretsantas.maximum('year')
     if @year.nil?
@@ -13,6 +14,11 @@ class HomePageController < ApplicationController
   end
 
   def import
+
+    flash[:information] = "Parameter #{params.inspect}"
+
+    flash[:notice] = File.new(params[:file].path).readlines[0]
+
     redirect_to root_path
   end
 end
