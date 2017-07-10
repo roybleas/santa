@@ -23,4 +23,7 @@ include Santavalidations
 
   validates_with Santa_validator
 
+  scope :join_self_as_s2, -> {joins("INNER join people_secretsantas s2 on people_secretsantas.person_id = s2.person_id")}
+  scope :where_this_year_and_s2_last_year, ->(this_year) {where("people_secretsantas.year = ? and s2.year = ?",this_year,this_year - 1 )}
+  scope :selecting_this_year_id_and_last_year_santa_id, -> {select("people_secretsantas.id,s2.santa_id as last_year_santa_id")}
 end

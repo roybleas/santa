@@ -15,10 +15,30 @@ class HomePageController < ApplicationController
 
   def import
 
-    flash[:information] = "Parameter #{params.inspect}"
+    if  params[:file].nil?
+      redirect_to load_path
+      return
+    end
 
-    flash[:notice] = File.new(params[:file].path).readlines[0]
+    import = ImportParticipants.new(params[:file].path)
+    if import.extract?
+      # save new and updated people records
+      Person.transaction do
+        import.participants.each{ |p| p.person.save!}
+      end
 
-    redirect_to root_path
+      santalist = SantaList.new(params[:currentyear], import.participants)
+      PeopleSecretsantas.transaction do
+        santalist.add_people
+        santalist.update_with_previous_santas
+      end
+
+      redirect_to root_path
+    else
+      flash[:warning] = import.error_message
+      redirect_to load_path
+    end
+
   end
+
 end
