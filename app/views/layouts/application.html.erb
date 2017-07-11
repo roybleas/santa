@@ -7,21 +7,24 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-  <nav class="navbar navbar-default " role="navigation" >
-  	<div class="container-fluid">
-  		<div class="navbar-header">
-  			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-  				<span class="sr-only">Toggle navigation</span>
-  				<span class="icon-bar"></span>
-  				<span class="icon-bar"></span>
-  				<span class="icon-bar"></span>
-  			</button>
-  		  <%= link_to "Secret Santa", root_path, class: "navbar-brand", id: "brand__santa" %>
-
+  <nav class="navbar navbar-inverse"  role="navigation">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <%= link_to "Secret Santa", root_path, class: "navbar-brand", id: "brand__santa" %>
       </div>
-  	</div>
+      <div class="collapse navbar-collapse" id="myNavbar">
+        <ul class="nav navbar-nav">
+          <li role="presentation" class="<%= 'active' if current_page?(action: 'home') %>"> <%= link_to "Home", root_path %> </li>
+          <li role="presentation" class="<%= 'active' if current_page?(action: 'load') %>"> <%= link_to "Import", load_path %> </li>
+        </ul>
+      </div>
+    </div>
   </nav>
-
   <div class="container" >
     <% flash.each do |key, value| %>
     	<%= content_tag(:div, value, class: "alert alert-#{key}" ) %>
