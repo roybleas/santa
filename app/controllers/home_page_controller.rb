@@ -29,7 +29,7 @@ class HomePageController < ApplicationController
 
       santalist = SantaList.new(params[:currentyear], import.participants)
       PeopleSecretsantas.transaction do
-        santalist.add_people
+        santalist.add_people_to_list
         santalist.update_with_previous_santas
       end
 
