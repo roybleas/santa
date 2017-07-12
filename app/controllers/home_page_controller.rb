@@ -5,6 +5,11 @@ class HomePageController < ApplicationController
     if @year.nil?
       redirect_to load_url
     else
+      @people_secretsantas = PeopleSecretsantas.include_people.
+        include_partners.
+        include_santas.
+        include_previous_santas.
+        by_year(@year).order("people.name")
     end
   end
 

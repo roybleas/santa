@@ -1,2 +1,32 @@
-<h1>HomePage#home</h1>
-<p>Find me in app/views/home_page/home.html.erb</p>
+<div class="container">
+<div class="well"><h4>
+  Secret Santa participants for <%= @year %>
+</h4>
+</div>
+<table class="table">
+  <thead>
+    <th>Name</th>
+    <th>Santa</th>
+    <th>Partner</th>
+    <th>Santa from last year</th>
+  </thead>
+<tbody>
+  <% @people_secretsantas.each do |person_secretsanta| %>
+  <tr>
+    <td>
+      <%= person_secretsanta.person.name %>
+    </td>
+    <td>
+      <%= person_secretsanta.santa.name unless person_secretsanta.santa.nil?  %>
+    </td>
+    <td>
+      <%= person_secretsanta.partner.name unless person_secretsanta.partner.nil?  %>
+    </td>
+    <td>
+      <%= person_secretsanta.previous_santa.name unless person_secretsanta.previous_santa.nil?  %>
+    </td>
+  </tr>
+  <% end %>
+</tbody>
+</table>
+</div>

@@ -27,6 +27,9 @@ FactoryGirl.define do
         partner_id { FactoryGirl.create(:partner).id }
         previous_santa_id { FactoryGirl.create(:previous_santa).id }
       end
+      factory :secretsanta_with_santa_previous, :class => 'PeopleSecretsantas' do
+        previous_santa_id { FactoryGirl.create(:previous_santa).id }
+      end
     end
   end
 end
