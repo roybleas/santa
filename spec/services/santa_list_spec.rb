@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 
-RSpec.describe "HomePages" do
+RSpec.describe "Santa List" do
   context "people_secretsanta records" do
 
     before(:context) do
