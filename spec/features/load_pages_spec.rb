@@ -7,7 +7,6 @@ RSpec.feature "HomePages", type: :feature do
     expect(page).to have_selector("input[value='#{(Date.today.year)}']")
     expect(page).to have_selector("input[type='number']")
     expect(page).to have_selector("input[min='#{(Date.today.year)}']")
-
   end
 
   scenario "Shows default of latest sanata year" do
@@ -20,7 +19,6 @@ RSpec.feature "HomePages", type: :feature do
     expect(page).to have_selector("input[value='#{(@person_santa.year)}']")
     expect(page).to have_selector("input[type='number']")
     expect(page).to have_selector("input[min='#{(@person_santa.year)}']")
-
   end
 
   scenario "Ignores import when no file selected" do
@@ -61,7 +59,21 @@ RSpec.feature "HomePages", type: :feature do
     attach_file('file', './spec/files/simple_names.csv')
     click_button('Import')
     expect(PeopleSecretsantas.count).to eq person_santa_count + 3
-
   end
 
+  scenario "generate Secret Santas on load" do
+    skip
+    next_year = PeopleSecretsantas.maximum('year')
+    next_year ||= Date.today.year
+    next_year =+ 1
+
+    visit load_path
+    fill_in 'currentyear', with: next_year
+    attach_file('file', './spec/files/partners.csv')
+    click_button('Import')
+
+    expect(current_path).to eq root_path
+    expect(PeopleSecretsantas.where.not("santa_id is null").by_year(next_year).count).to_not eq 0
+
+  end
 end

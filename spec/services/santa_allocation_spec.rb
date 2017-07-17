@@ -41,10 +41,11 @@ RSpec.describe "Santa Allocation" do
     end
 
     it " successfully 2 people to each other" do
+
       people_secretsantas = PeopleSecretsantas.find([@ps1.id, @ps2.id])
       pre_shuffle = people_secretsantas.map { |p| p.person_id }
       allocation = SantaAllocation.new(people_secretsantas)
-      allocation.gift_recipients = pre_shuffle.reverse
+      allocation.gift_recipients = pre_shuffle
       expect(allocation.generate).to be_truthy
       expect(allocation.santas[0].santa_id).to eq @ps2.person_id
       expect(allocation.santas[1].santa_id).to eq @ps1.person_id
@@ -60,12 +61,12 @@ RSpec.describe "Santa Allocation" do
       people_secretsantas = PeopleSecretsantas.find([@ps1.id, @ps2.id, @ps3.id, @ps4.id ] )
       pre_shuffle = people_secretsantas.map { |p|  p.person_id }
       allocation = SantaAllocation.new(people_secretsantas)
-      allocation.gift_recipients = pre_shuffle.reverse
+      allocation.gift_recipients = pre_shuffle
       expect(allocation.generate).to be_truthy
       expect(allocation.santas[0].santa_id).to eq @ps3.person_id
       expect(allocation.santas[1].santa_id).to eq @ps4.person_id
-      expect(allocation.santas[2].santa_id).to eq @ps2.person_id
-      expect(allocation.santas[3].santa_id).to eq @ps1.person_id
+      expect(allocation.santas[2].santa_id).to eq @ps1.person_id
+      expect(allocation.santas[3].santa_id).to eq @ps2.person_id
     end
 
     it " successfully 4 people each with partners and previous santa " do
@@ -83,7 +84,7 @@ RSpec.describe "Santa Allocation" do
       people_secretsantas = PeopleSecretsantas.find([@ps1.id, @ps2.id, @ps3.id, @ps4.id ] )
       pre_shuffle = people_secretsantas.map { |p| p.person_id }
       allocation = SantaAllocation.new(people_secretsantas)
-      allocation.gift_recipients = pre_shuffle.reverse
+      allocation.gift_recipients = pre_shuffle
       expect(allocation.generate).to be_truthy
       expect(allocation.santas[0].santa_id).to eq @ps4.person_id
       expect(allocation.santas[1].santa_id).to eq @ps3.person_id

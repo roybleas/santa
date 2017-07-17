@@ -38,6 +38,17 @@ class HomePageController < ApplicationController
         santalist.update_with_previous_santas
       end
 
+      people_secretsantas = PeopleSecretsantas.by_year(params[:currentyear]).all
+      allocate = SantaAllocation.new(people_secretsantas)
+      if allocate.generate
+        allocate.save
+      else
+        flash[:warning] = allocate.error_message
+        redirect_to load_path
+        return
+      end
+
+
       redirect_to root_path
     else
       flash[:warning] = import.error_message

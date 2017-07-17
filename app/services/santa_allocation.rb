@@ -1,16 +1,14 @@
 # Process of allocation
-# 1) create an array of Santas and array of gift recipients
-# 2) shuffle the gift recipients
-# 3) Step through each santa and allocate the last gift recipient  if valid
-# 4) If gift recipient is invalid for this Santa then store the invalid
-#    recipient and try the next gift recipient till valid match found
-# 5) Once a valid match is found get the next Santa and first try match
-#    against the last stored gift recipient that have been skipped over
-# 6) Once all the potential gift recipients have been exhausted then
-#    go back and find valid matches from the stored recipients.
-# 7) If at the end of the allocation there are gift recipients left over then
-#    assume the allocation failed.
-
+#
+# 1) Create an array of Santas and array of gift recipients
+# 2) Shuffle the gift recipients
+# 3) Step through each Santa and gift recipient and comapre to see if valid
+# 4) If invalid - step through rest of gift recipients to find a valid match
+# 5) If match found swap invalid gift recipient with valid one
+# 6) If no more gift recipients then go back to the beginning and step through
+# 7) If both earlier and current are matches swap
+# 8) If run out of gift recipients assume cannot be a valid alloction of Santas
+#    to participants
 
 class SantaAllocation
   attr_reader   :santas, :error_message
@@ -28,44 +26,59 @@ class SantaAllocation
 
   def generate
 
-    gift_recipient = @gift_recipients.pop
-    store = []
+    gr_index = 0
 
     @santas.each do |s|
-      break if gift_recipient.nil?
-
-      while s.santa_id.nil?
-
-        if s.valid?(gift_recipient)
-          s.santa_id = gift_recipient
-          if store.empty?
-            gift_recipient = @gift_recipients.pop
-          else
-            gift_recipient = store.pop
-          end
-        else
-          store.push(gift_recipient)
-
-          if !@gift_recipients.empty?
-            gift_recipient = @gift_recipients.pop
-          else
-            valid_recipients = store.select { |recipient| s.valid?(recipient) }
-
-            if valid_recipients.empty?
-              gift_recipient = nil
-            else
-              gift_recipient = valid_recipients.first
-              store.delete(valid_recipients.first)
-            end
+      # 3) Step through each Santa and gift recipient and comapre to see if valid
+      if s.valid?(@gift_recipients[gr_index])
+        gr_index += 1
+      else
+        # 4) If invalid - step through rest of gift recipients to find a valid match
+        (gr_index + 1...@gift_recipients.size).each do |gr_idx_2|
+          if s.valid?(@gift_recipients[gr_idx_2])
+            # 5) If match found swap invalid gift recipient with valid one
+            @gift_recipients[gr_index], @gift_recipients[gr_idx_2] = @gift_recipients[gr_idx_2], @gift_recipients[gr_index]
+            break
           end
         end
-        break if gift_recipient.nil?
+        if s.valid?(@gift_recipients[@santas.index(s)])
+          gr_index += 1
+        else
+          # 6) If no more gift recipients then go back to the beginning and step through
+          (0...gr_index).each do |gr_idx_3|
+            if s.valid?(@gift_recipients[gr_idx_3]) && @santas[gr_idx_3].valid?(@gift_recipients[gr_index])
+              # 7) If both earlier and current are matches swap
+              @gift_recipients[gr_index], @gift_recipients[gr_idx_3] = @gift_recipients[gr_idx_3], @gift_recipients[gr_index]
+              break
+            end
+          end
+          if s.valid?(@gift_recipients[@santas.index(s)])
+            gr_index += 1
+          else
+            @error_message = "Failed to allocate everyone to a Secret Santa #{@santas.inspect} : #{@gift_recipients.inspect}"
+            return false
+          end
+        end
       end
     end
-    if !@gift_recipients.empty? || !store.empty?
-      @error_message = "Failed to allocate everyone to a Secret Santa"
-      return false
-    end
-    return true
+    @santas.each_index { |idx| @santas[idx].santa_id = @gift_recipients[idx]}
+    validate?
   end
+
+  def save
+
+  end
+
+  private
+
+  def validate?
+    @santas.each do |s|
+      if !s.valid?(s.santa_id)
+        @error_message = "Failed to allocate to a Secret Santa at id #{s.id}:  #{@santas.inspect}"
+        return false
+      end
+    end
+    true
+  end
+
 end
