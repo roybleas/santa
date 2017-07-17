@@ -41,7 +41,9 @@ class HomePageController < ApplicationController
       people_secretsantas = PeopleSecretsantas.by_year(params[:currentyear]).all
       allocate = SantaAllocation.new(people_secretsantas)
       if allocate.generate
-        allocate.save
+        PeopleSecretsantas.transaction do
+          allocate.santas.each { |s| PeopleSecretsantas.update(s.id , santa_id: s.santa_id)}
+        end
       else
         flash[:warning] = allocate.error_message
         redirect_to load_path

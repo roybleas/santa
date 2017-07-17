@@ -62,7 +62,7 @@ RSpec.feature "HomePages", type: :feature do
   end
 
   scenario "generate Secret Santas on load" do
-    skip
+
     next_year = PeopleSecretsantas.maximum('year')
     next_year ||= Date.today.year
     next_year =+ 1
@@ -74,6 +74,10 @@ RSpec.feature "HomePages", type: :feature do
 
     expect(current_path).to eq root_path
     expect(PeopleSecretsantas.where.not("santa_id is null").by_year(next_year).count).to_not eq 0
-
+    ps = PeopleSecretsantas.include_people.include_santas.by_year(next_year).order("people.name").first
+  
+    expect(page).to have_xpath('//tbody/tr[1]/td[1]',text: ps.person.name)
+    expect(page).to have_xpath('//tbody/tr[1]/td[2]',text: ps.santa.name)
+    expect(page).to have_xpath('//tbody/tr[1]/td[3]',text: ps.partner.name)
   end
 end

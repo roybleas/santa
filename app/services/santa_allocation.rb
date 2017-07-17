@@ -65,10 +65,6 @@ class SantaAllocation
     validate?
   end
 
-  def save
-
-  end
-
   private
 
   def validate?
