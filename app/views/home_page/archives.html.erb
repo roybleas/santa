@@ -1,0 +1,19 @@
+<div class="container">
+  <div class="well"><h4>
+    Secret Santa participants from previous years
+    </h4>
+  </div>
+  <% if @years.size > 0 %>
+    <div class="col-md-3">
+      <ul class="nav nav-pills nav-stacked">
+        <% @years.each do |this_year| %><% @years %>
+          <li><a href="#"> <%= this_year.year %> </a></li>
+        <% end %>
+      </ul>
+    </div>
+  <% else %>
+    <div class="panel panel-info">
+      <div class="panel-heading">No previous participant lists found</div>
+    </div>
+  <% end %>
+</div>

@@ -32,5 +32,6 @@ include Santavalidations
   scope :include_partners, -> {includes(:partner).references(:partner)}
   scope :include_previous_santas, -> {includes(:previous_santa).references(:previous_santa)}
   scope :by_year, ->(for_year) {where("year = ?", for_year)}
+  scope :not_current_year, -> {where.not("year = ?", PeopleSecretsantas.maximum('year'))}
 
 end

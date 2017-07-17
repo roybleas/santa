@@ -39,4 +39,31 @@ RSpec.feature "HomePages", type: :feature do
     page.assert_selector('tbody tr td', :count => 4)
 
   end
+  context "navigation menu" do
+    before(:example) do
+      ps = FactoryGirl.create(:people_secretsanta)
+    end
+    scenario "import view" do
+      visit root_path
+      click_link("Import")
+      expect(current_path).to eq load_path
+      expect(within("//nav"){ find(:xpath, ".//ul/li[contains(@class, 'active')]/a").text }).to eq "Import"
+    end
+    scenario "home view" do
+      visit load_path
+      click_link("Home")
+      expect(current_path).to eq root_path
+      expect(within("//nav"){ find(:xpath, ".//ul/li[contains(@class, 'active')]/a").text }).to eq "Home"
+      visit load_path
+      click_link("Secret Santa")
+      expect(current_path).to eq root_path
+      expect(within("//nav"){ find(:xpath, ".//ul/li[contains(@class, 'active')]/a").text }).to eq "Home"
+    end
+    scenario "archives view" do
+      visit root_path
+      click_link("Previous Years")
+      expect(current_path).to eq archives_path
+      expect(within("//nav"){ find(:xpath, ".//ul/li[contains(@class, 'active')]/a").text }).to eq "Previous Years"
+    end
+  end
 end

@@ -58,5 +58,9 @@ class HomePageController < ApplicationController
     end
 
   end
+  def archives
+    current_year = PeopleSecretsantas.maximum('year')
 
+    @years = PeopleSecretsantas.select(:year).distinct.not_current_year.order(year: :desc)
+  end
 end
