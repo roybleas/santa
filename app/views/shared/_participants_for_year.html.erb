@@ -1,0 +1,26 @@
+<table class="table">
+  <thead>
+    <th>Participant</th>
+    <th>Secret Santa for</th>
+    <th>Partner</th>
+    <th>Secret Santa from last year</th>
+  </thead>
+<tbody>
+  <% people_secretsantas.each do |person_secretsanta| %>
+  <tr>
+    <td>
+      <%= person_secretsanta.person.name %>
+    </td>
+    <td>
+      <%= person_secretsanta.santa.name unless person_secretsanta.santa.nil?  %>
+    </td>
+    <td>
+      <%= person_secretsanta.partner.name unless person_secretsanta.partner.nil?  %>
+    </td>
+    <td>
+      <%= person_secretsanta.previous_santa.name unless person_secretsanta.previous_santa.nil?  %>
+    </td>
+  </tr>
+  <% end %>
+</tbody>
+</table>

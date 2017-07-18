@@ -45,7 +45,7 @@ class HomePageController < ApplicationController
           allocate.santas.each { |s| PeopleSecretsantas.update(s.id , santa_id: s.santa_id)}
         end
       else
-        flash[:warning] = allocate.error_message
+        flash[:alert] = allocate.error_message
         redirect_to load_path
         return
       end
@@ -53,7 +53,7 @@ class HomePageController < ApplicationController
 
       redirect_to root_path
     else
-      flash[:warning] = import.error_message
+      flash[:alert] = import.error_message
       redirect_to load_path
     end
 

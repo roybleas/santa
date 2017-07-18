@@ -20,5 +20,5 @@ RSpec.describe HomePageController, type: :controller do
     end
   end
 
-  
+
 end

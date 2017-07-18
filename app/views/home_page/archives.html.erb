@@ -6,8 +6,8 @@
   <% if @years.size > 0 %>
     <div class="col-md-3">
       <ul class="nav nav-pills nav-stacked">
-        <% @years.each do |this_year| %><% @years %>
-          <li><a href="#"> <%= this_year.year %> </a></li>
+        <% @years.each do |this_year| %>
+          <li> <%= link_to this_year.year, people_secretsanta_path(this_year.year) %> </li>
         <% end %>
       </ul>
     </div>

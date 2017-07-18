@@ -14,7 +14,7 @@
 
 FactoryGirl.define do
   factory :people_secretsanta, :class => 'PeopleSecretsantas' do
-    year 2017
+    year Date.today.year
     santa_id nil
     partner_id nil
     previous_santa_id nil
@@ -30,6 +30,9 @@ FactoryGirl.define do
       factory :secretsanta_with_santa_previous, :class => 'PeopleSecretsantas' do
         previous_santa_id { FactoryGirl.create(:previous_santa).id }
       end
+    end
+    factory :archived_secretsanta, :class => 'PeopleSecretsantas' do
+      year Date.today.year - 1
     end
   end
 end

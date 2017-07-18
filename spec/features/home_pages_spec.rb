@@ -17,7 +17,7 @@ RSpec.feature "HomePages", type: :feature do
 
     expect(current_path).to eq root_path
 
-    expect(page).to have_css("h4", "Secret Santa participants for #{ps.year}")
+    expect(page).to have_css("h4", text: "Current Secret Santa participants for #{ps.year}")
     expect(page).to have_css("table")
     [/\AParticipant\z/ , /\ASecret Santa for\z/, /\APartner\z/, /\ASecret Santa from last year\z/ ].each do |header|
       expect(page).to have_css("th", text: header)
@@ -65,5 +65,17 @@ RSpec.feature "HomePages", type: :feature do
       expect(current_path).to eq archives_path
       expect(within("//nav"){ find(:xpath, ".//ul/li[contains(@class, 'active')]/a").text }).to eq "Previous Years"
     end
+    scenario "previous year view" do
+      FactoryGirl.create(:people_secretsanta, year: 2013)
+      @person_santa = FactoryGirl.create(:people_secretsanta, year: 2015)
+      FactoryGirl.create(:people_secretsanta, year: 2014)
+
+      visit root_path
+      click_link("Previous Years")
+      click_link("2014")
+      expect(current_path).to eq people_secretsanta_path(2014)
+      expect(within("//nav"){ find(:xpath, ".//ul/li[contains(@class, 'active')]/a").text }).to eq "Previous Years"
+    end
+
   end
 end

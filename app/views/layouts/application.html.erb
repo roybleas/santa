@@ -19,9 +19,9 @@
       </div>
       <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav">
-          <li role="presentation" class="<%= 'active' if current_page?(action: 'home') %>"> <%= link_to "Home", root_path %> </li>
-          <li role="presentation" class="<%= 'active' if current_page?(action: 'load') %>"> <%= link_to "Import", load_path %> </li>
-          <li role="presentation" class="<%= 'active' if current_page?(action: 'archives') %>"> <%= link_to "Previous Years", archives_path %> </li>
+          <li role="presentation" class="<%= 'active' if current_page?(controller: 'home_page', action: 'home') %>"> <%= link_to "Home", root_path %> </li>
+          <li role="presentation" class="<%= 'active' if current_page?(controller: 'home_page', action: 'load') %>"> <%= link_to "Import", load_path %> </li>
+          <li role="presentation" class="<%= 'active' if (current_page?(controller: 'home_page', action: 'archives') or current_page?("/people_secretsantas/#{params[:year]}")) %>"> <%= link_to "Previous Years", archives_path %> </li>
         </ul>
       </div>
     </div>

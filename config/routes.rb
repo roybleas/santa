@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   get 'archives' => 'home_page#archives'
 
 
+  resources :people_secretsantas , param: :year, only: [:show, :destroy]
+  #get 'people_secretsantas/:year', to: 'people_secretsantas#show'
 
 
     # The priority is based upon order of creation: first created -> highest priority.

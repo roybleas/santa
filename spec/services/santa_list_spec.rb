@@ -44,6 +44,7 @@ RSpec.describe "Santa List" do
     end
     context "updates previous santa id" do
       it "when previous years santa id if participant has same name" do
+        #this step failed but cannot reproduce
         this_year = Date.today.year
         last_year = this_year - 1
         s1 = FactoryGirl.create(:people_secretsanta, year: last_year)
