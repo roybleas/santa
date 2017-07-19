@@ -20,4 +20,9 @@ class Person < ActiveRecord::Base
   has_many :partners, :class_name => 'PeopleSecretsantas', :foreign_key => 'partner_id'
   has_many :previous_santas, :class_name => 'PeopleSecretsantas', :foreign_key => 'previous_santa_id'
 
+  scope :include_people_secretsantas, -> {includes(:people_secretsantas).references(:people_secretsantas)}
+  scope :include_santas, -> {includes(:santas).references(:santas)}
+  scope :include_partners, -> {includes(:partners).references(:partners)}
+  scope :include_previous_santas, -> {includes(:previous_santas).references(:previous_santas)}
+
 end

@@ -77,5 +77,25 @@ RSpec.feature "HomePages", type: :feature do
       expect(within("//nav"){ find(:xpath, ".//ul/li[contains(@class, 'active')]/a").text }).to eq "Previous Years"
     end
 
+    scenario "participants" do
+      visit root_path
+      click_link("Participants")
+      expect(current_path).to eq people_path
+      expect(within("//nav"){ find(:xpath, ".//ul/li[contains(@class, 'active')]/a").text }).to eq "Participants"
+    end
+
+
+    scenario "person view" do
+      ps = FactoryGirl.create(:secretsanta_with_santa_partner_previous)
+      p = Person.find(ps.person_id)
+
+      visit root_path
+      click_link("Participants")
+      expect(current_path).to eq people_path
+      click_link(p.name)
+      expect(current_path).to eq person_path(p.id)
+      expect(within("//nav"){ find(:xpath, ".//ul/li[contains(@class, 'active')]/a").text }).to eq "Participants"
+    end
+
   end
 end

@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+
   root 'home_page#home'
   get 'load' => 'home_page#load'
   post 'import' => 'home_page#import'
@@ -7,7 +8,8 @@ Rails.application.routes.draw do
 
 
   resources :people_secretsantas , param: :year, only: [:show, :destroy]
-  #get 'people_secretsantas/:year', to: 'people_secretsantas#show'
+  resources :people, only: [:show, :index]
+  
 
 
     # The priority is based upon order of creation: first created -> highest priority.
