@@ -9,16 +9,16 @@
   <% people_secretsantas.each do |person_secretsanta| %>
   <tr>
     <td>
-      <%= person_secretsanta.person.name %>
+      <%= link_to person_secretsanta.person.name, person_path(person_secretsanta.person_id) %>
     </td>
     <td>
-      <%= person_secretsanta.santa.name unless person_secretsanta.santa.nil?  %>
+      <%= link_to person_secretsanta.santa.name, person_path(person_secretsanta.santa_id) unless person_secretsanta.santa.nil? %>
     </td>
     <td>
-      <%= person_secretsanta.partner.name unless person_secretsanta.partner.nil?  %>
+      <%= link_to person_secretsanta.partner.name, person_path(person_secretsanta.partner_id) unless person_secretsanta.partner.nil? %>
     </td>
     <td>
-      <%= person_secretsanta.previous_santa.name unless person_secretsanta.previous_santa.nil?  %>
+      <%= link_to person_secretsanta.previous_santa.name, person_path(person_secretsanta.previous_santa_id) unless person_secretsanta.previous_santa_id.nil? %>
     </td>
   </tr>
   <% end %>
