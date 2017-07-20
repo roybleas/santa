@@ -45,22 +45,27 @@ RSpec.describe "Santa List" do
       expect(person_santa2.partner_id).to eq @participant_1.person.id
     end
     context "updates previous santa id" do
-      it "when previous years santa id if participant has same name" do
+      it " if participant has same name" do
         #this step failed but cannot reproduce
         this_year = Date.today.year
         last_year = this_year - 1
         s1 = FactoryGirl.create(:people_secretsanta, year: last_year)
         s2 = FactoryGirl.create(:people_secretsanta, year: last_year)
+        s3 = FactoryGirl.create(:people_secretsanta, year: last_year)
         s2.santa_id = s1.person_id
         s2.save
-        s3 = FactoryGirl.create(:people_secretsanta, year: this_year, person_id: s2.person_id)
-        s4 = FactoryGirl.create(:people_secretsanta, year: this_year)
+        s1.santa_id = s2.person_id
+        s1.save
+        s4 = FactoryGirl.create(:people_secretsanta, year: this_year, person_id: s2.person_id)
+        s5 = FactoryGirl.create(:people_secretsanta, year: this_year, person_id: s1.person_id)
+        s6 = FactoryGirl.create(:people_secretsanta, year: this_year)
 
         santalist = SantaList.new(this_year.to_s,[])
         santalist.update_with_previous_santas
 
-        expect(PeopleSecretsantas.find_by_person_id(s4.person.id).previous_santa_id).to be_nil
-        expect(PeopleSecretsantas.find_by_person_id(s3.person.id).previous_santa_id).to eq s1.person_id
+        expect(PeopleSecretsantas.find_by_person_id(s4.person.id).previous_santa_id).to eq s1.person_id
+        expect(PeopleSecretsantas.find_by_person_id(s5.person.id).previous_santa_id).to eq s2.person_id
+        expect(PeopleSecretsantas.find_by_person_id(s6.person.id).previous_santa_id).to be_nil
       end
 
       it "but ignores years earlier than previous one" do
