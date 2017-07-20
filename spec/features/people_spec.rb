@@ -58,7 +58,7 @@ RSpec.feature "People", type: :feature do
       @ps2 = FactoryGirl.create(:people_secretsanta, person_id: @p.id, year: @ps1.year - 1)
     end
     after(:context) { DatabaseCleaner.clean}
-    
+
     scenario "not found" do
       visit person_path(0)
       expect(page.status_code).to eq 404
@@ -70,7 +70,7 @@ RSpec.feature "People", type: :feature do
       expect(page).to have_css("h4", text: "Secret Santa participant: #{@p.name}")
       expect(page).to have_css("table")
       [/\AYear\z/ , /\ASecret Santa for\z/, /\APartner\z/,
-         /\ASecret Santa from last year\z/ ].each do |header|
+         /\ASecret Santa from previous year\z/ ].each do |header|
         expect(page).to have_css("th", text: header)
       end
       expect(page).to have_css("tbody tr td", text: @ps2.year)
@@ -88,6 +88,17 @@ RSpec.feature "People", type: :feature do
       expect(page).to have_css("tbody tr td", text: s.name)
       expect(page).to have_css("tbody tr td", text: partner.name)
       expect(page).to have_css("tbody tr td", text: previous.name)
+    end
+
+    scenario "creates link to a year in archives when the person participated " do
+      visit person_path(@p.id)
+      click_link(@ps2.year)
+      expect(current_path).to eq people_secretsanta_path(@ps2.year)
+    end
+    scenario "creates link to current year in root when the person participated " do
+      visit person_path(@p.id)
+      click_link(@ps1.year)
+      expect(current_path).to eq root_path
     end
   end
 end

@@ -4,29 +4,10 @@
     </h4>
   </div>
   <table class="table">
-    <thead>
-      <th>Year</th>
-      <th>Secret Santa for</th>
-      <th>Partner</th>
-      <th>Secret Santa from last year</th>
-    </thead>
-  <tbody>
-    <% @people_secretsantas.each do |person_secretsanta| %>
-    <tr>
-      <td>
-        <%= person_secretsanta.year %>
-      </td>
-      <td>
-        <%= person_secretsanta.santa.name unless person_secretsanta.santa.nil?  %>
-      </td>
-      <td>
-        <%= person_secretsanta.partner.name unless person_secretsanta.partner.nil?  %>
-      </td>
-      <td>
-        <%= person_secretsanta.previous_santa.name unless person_secretsanta.previous_santa.nil?  %>
-      </td>
-    </tr>
-    <% end %>
-  </tbody>
+    <%= render partial: "shared/participants_table_header", locals: {header_for: "Year"} %>
+    <tbody>
+      <%= render partial: "shared/participants_table_by_year", collection: @people_secretsantas, as: :person_secretsanta,
+       locals: {set_path: set_path(@current_year) } %>
+    </tbody>
   </table>
 </div>

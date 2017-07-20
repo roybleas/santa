@@ -1,0 +1,9 @@
+<td>
+  <%= link_to person_secretsanta.santa.name, person_path(person_secretsanta.santa_id) unless person_secretsanta.santa.nil? %>
+</td>
+<td>
+  <%= link_to person_secretsanta.partner.name, person_path(person_secretsanta.partner_id) unless person_secretsanta.partner.nil? %>
+</td>
+<td>
+  <%= link_to person_secretsanta.previous_santa.name, person_path(person_secretsanta.previous_santa_id) unless person_secretsanta.previous_santa_id.nil? %>
+</td>

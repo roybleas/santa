@@ -1,26 +1,6 @@
 <table class="table">
-  <thead>
-    <th>Participant</th>
-    <th>Secret Santa for</th>
-    <th>Partner</th>
-    <th>Secret Santa from last year</th>
-  </thead>
-<tbody>
-  <% people_secretsantas.each do |person_secretsanta| %>
-  <tr>
-    <td>
-      <%= link_to person_secretsanta.person.name, person_path(person_secretsanta.person_id) %>
-    </td>
-    <td>
-      <%= link_to person_secretsanta.santa.name, person_path(person_secretsanta.santa_id) unless person_secretsanta.santa.nil? %>
-    </td>
-    <td>
-      <%= link_to person_secretsanta.partner.name, person_path(person_secretsanta.partner_id) unless person_secretsanta.partner.nil? %>
-    </td>
-    <td>
-      <%= link_to person_secretsanta.previous_santa.name, person_path(person_secretsanta.previous_santa_id) unless person_secretsanta.previous_santa_id.nil? %>
-    </td>
-  </tr>
-  <% end %>
-</tbody>
+  <%= render partial: "shared/participants_table_header", locals: {header_for: "Participant"} %>
+  <tbody>
+    <%= render partial: "shared/participants_table_by_person", collection: @people_secretsantas, as: :person_secretsanta%>
+  </tbody>
 </table>

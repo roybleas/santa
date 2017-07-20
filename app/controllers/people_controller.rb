@@ -9,6 +9,7 @@ class PeopleController < ApplicationController
     if @person.nil?
       content_not_found
     else
+      @current_year = PeopleSecretsantas.maximum('year')
       @people_secretsantas = PeopleSecretsantas.
         include_partners.
         include_santas.

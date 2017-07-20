@@ -1,0 +1,6 @@
+<tr>
+  <td>
+    <%= link_to person_secretsanta.person.name, person_path(person_secretsanta.person_id) %>
+  </td>
+  <%= render partial: "shared/participants_table", locals: {person_secretsanta: person_secretsanta} %>
+</tr>

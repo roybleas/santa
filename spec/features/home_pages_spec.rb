@@ -19,7 +19,7 @@ RSpec.feature "HomePages", type: :feature do
 
     expect(page).to have_css("h4", text: "Current Secret Santa participants for #{ps.year}")
     expect(page).to have_css("table")
-    [/\AParticipant\z/ , /\ASecret Santa for\z/, /\APartner\z/, /\ASecret Santa from last year\z/ ].each do |header|
+    [/\AParticipant\z/ , /\ASecret Santa for\z/, /\APartner\z/, /\ASecret Santa from previous year\z/ ].each do |header|
       expect(page).to have_css("th", text: header)
     end
     expect(page).to have_css("tbody tr td", text: p.name)
