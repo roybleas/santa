@@ -5,6 +5,7 @@ RSpec.describe "Santa List" do
   context "people_secretsanta records" do
 
     before(:context) do
+      DatabaseCleaner.start
       @this_year = Date.today.year
       @participant_1 = Participant.new("person_1","person_1@email.com")
       @participant_1.person.save!
@@ -19,6 +20,7 @@ RSpec.describe "Santa List" do
       @participant_3 = Participant.new(Person.find(@previous_person_santa_1.person_id).name,"person@email.com")
       @participant_3.person.save!
     end
+    after(:context) { DatabaseCleaner.clean}
 
     it "creates a santa record" do
       participants = [@participant_1]

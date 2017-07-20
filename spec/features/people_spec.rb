@@ -20,10 +20,12 @@ RSpec.feature "People", type: :feature do
 
     context "links to " do
       before(:context) do
+        DatabaseCleaner.start
         @p = FactoryGirl.create(:person)
         @ps1 = FactoryGirl.create(:people_secretsanta, person_id: @p.id)
         @ps2 = FactoryGirl.create(:people_secretsanta, person_id: @p.id, year: @ps1.year - 1)
       end
+      after(:context) { DatabaseCleaner.clean}
 
       scenario "previous year person was a participant" do
         visit people_path
@@ -50,11 +52,13 @@ RSpec.feature "People", type: :feature do
 
   context "show" do
     before(:context) do
+      DatabaseCleaner.start
       @p = FactoryGirl.create(:person)
       @ps1 = FactoryGirl.create(:people_secretsanta, person_id: @p.id)
       @ps2 = FactoryGirl.create(:people_secretsanta, person_id: @p.id, year: @ps1.year - 1)
     end
-
+    after(:context) { DatabaseCleaner.clean}
+    
     scenario "not found" do
       visit person_path(0)
       expect(page.status_code).to eq 404

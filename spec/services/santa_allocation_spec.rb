@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe "Santa Allocation" do
   context "initialize" do
     before(:context) do
+      DatabaseCleaner.start
       @ps1 = FactoryGirl.create(:people_secretsanta)
       ps2 = FactoryGirl.create(:people_secretsanta)
       ps3 = FactoryGirl.create(:people_secretsanta)
@@ -10,6 +11,7 @@ RSpec.describe "Santa Allocation" do
       ps5 = FactoryGirl.create(:people_secretsanta)
       @people_secretsantas = PeopleSecretsantas.find([@ps1.id, ps2.id, ps3.id, ps4.id, ps5 ])
     end
+    after(:context) { DatabaseCleaner.clean}
 
     it "creates array of santas" do
       allocation = SantaAllocation.new(@people_secretsantas)

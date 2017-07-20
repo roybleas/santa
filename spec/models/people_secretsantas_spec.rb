@@ -32,12 +32,15 @@ RSpec.describe PeopleSecretsantas, type: :model do
   end
   context "associations" do
     before(:context) do
+      DatabaseCleaner.start
       @secretsanta = FactoryGirl.create(:secretsanta_with_santa_partner_previous)
       @person = Person.find(@secretsanta.person_id)
       @santa = Person.find(@secretsanta.santa_id)
       @partner = Person.find(@secretsanta.partner_id)
       @previous_santa = Person.find(@secretsanta.previous_santa_id)
     end
+    after(:context) { DatabaseCleaner.clean}
+
     context "for secretsanta" do
         it "has a person" do
           expect(@secretsanta.person).to eq(@person)
