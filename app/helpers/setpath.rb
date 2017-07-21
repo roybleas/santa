@@ -1,6 +1,7 @@
 # though classes not normally in a helper it is only used
 # to simplify view logic
 
+# redirects to root if current year
 class Setpath
    delegate :url_helpers, to: 'Rails.application.routes'
 
