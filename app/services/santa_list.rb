@@ -5,7 +5,7 @@ class SantaList
 
   end
 
-  def add_people_to_list
+  def add_associated_people_to_participant
     people_secretsantas = []
 
     @participants.each do |p|

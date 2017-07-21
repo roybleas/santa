@@ -25,7 +25,7 @@ RSpec.describe "Santa List" do
     it "creates a santa record" do
       participants = [@participant_1]
       santalist = SantaList.new("2018",participants)
-      santalist.add_people_to_list
+      santalist.add_associated_people_to_participant
 
       person_santa = PeopleSecretsantas.find_by_person_id(@participant_1.person.id)
       expect(person_santa).to_not be_nil
@@ -36,7 +36,7 @@ RSpec.describe "Santa List" do
     it "creates a pair of partner santa records" do
       participants = [@participant_2,@participant_1]
       santalist = SantaList.new("2018",participants)
-      santalist.add_people_to_list
+      santalist.add_associated_people_to_participant
 
       person_santa2 = PeopleSecretsantas.find_by_person_id(@participant_2.person.id)
       expect(person_santa2).to_not be_nil
@@ -98,7 +98,7 @@ RSpec.describe "Santa List" do
       number_of_people = Person.count
 
       santalist = SantaList.new(this_year.to_s,[@participant_1, @participant_2])
-      santalist.add_people_to_list
+      santalist.add_associated_people_to_participant
 
       expect(PeopleSecretsantas.find_by_id(s1.id)).to_not be_nil
       expect(PeopleSecretsantas.find_by_id(s2.id)).to_not be_nil

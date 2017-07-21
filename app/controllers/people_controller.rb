@@ -1,7 +1,8 @@
 class PeopleController < ApplicationController
   def index
     @current_year = PeopleSecretsantas.maximum('year')
-    @people = Person.joins(:people_secretsantas).includes(:people_secretsantas).order("people.name","people_secretsantas.year").all
+    @people = Person.joins(:people_secretsantas).includes(:people_secretsantas).
+      order("people.name","people_secretsantas.year").all
   end
 
   def show

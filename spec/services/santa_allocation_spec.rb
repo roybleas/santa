@@ -48,7 +48,7 @@ RSpec.describe "Santa Allocation" do
       pre_shuffle = people_secretsantas.map { |p| p.person_id }
       allocation = SantaAllocation.new(people_secretsantas)
       allocation.gift_recipients = pre_shuffle
-      expect(allocation.generate).to be_truthy
+      expect(allocation.generate?).to be_truthy
       expect(allocation.santas[0].santa_id).to eq @ps2.person_id
       expect(allocation.santas[1].santa_id).to eq @ps1.person_id
     end
@@ -64,7 +64,7 @@ RSpec.describe "Santa Allocation" do
       pre_shuffle = people_secretsantas.map { |p|  p.person_id }
       allocation = SantaAllocation.new(people_secretsantas)
       allocation.gift_recipients = pre_shuffle
-      expect(allocation.generate).to be_truthy
+      expect(allocation.generate?).to be_truthy
       expect(allocation.santas[0].santa_id).to eq @ps3.person_id
       expect(allocation.santas[1].santa_id).to eq @ps4.person_id
       expect(allocation.santas[2].santa_id).to eq @ps1.person_id
@@ -87,7 +87,7 @@ RSpec.describe "Santa Allocation" do
       pre_shuffle = people_secretsantas.map { |p| p.person_id }
       allocation = SantaAllocation.new(people_secretsantas)
       allocation.gift_recipients = pre_shuffle
-      expect(allocation.generate).to be_truthy
+      expect(allocation.generate?).to be_truthy
       expect(allocation.santas[0].santa_id).to eq @ps4.person_id
       expect(allocation.santas[1].santa_id).to eq @ps3.person_id
       expect(allocation.santas[2].santa_id).to eq @ps1.person_id
@@ -103,7 +103,7 @@ RSpec.describe "Santa Allocation" do
       pre_shuffle = people_secretsantas.map { |p| p.person_id }
       allocation = SantaAllocation.new(people_secretsantas)
       allocation.gift_recipients = pre_shuffle
-      expect(allocation.generate).to be_falsey
+      expect(allocation.generate?).to be_falsey
       expect(allocation.error_message).to include('Failed to allocate everyone to a Secret Santa')
     end
   end

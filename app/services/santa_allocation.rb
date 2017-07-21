@@ -24,7 +24,7 @@ class SantaAllocation
     @gift_recipients.shuffle!
   end
 
-  def generate
+  def generate?
 
     gr_index = 0
 

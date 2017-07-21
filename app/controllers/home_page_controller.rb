@@ -32,15 +32,17 @@ class HomePageController < ApplicationController
         import.participants.each{ |p| p.person.save!}
       end
 
+      # update linked details to participant
       santalist = SantaList.new(params[:currentyear], import.participants)
       PeopleSecretsantas.transaction do
-        santalist.add_people_to_list
+        santalist.add_associated_people_to_participant
         santalist.update_with_previous_santas
       end
 
+      #generate a random list of santas
       people_secretsantas = PeopleSecretsantas.by_year(params[:currentyear]).all
       allocate = SantaAllocation.new(people_secretsantas)
-      if allocate.generate
+      if allocate.generate?
         PeopleSecretsantas.transaction do
           allocate.santas.each { |s| PeopleSecretsantas.update(s.id , santa_id: s.santa_id)}
         end
@@ -50,7 +52,6 @@ class HomePageController < ApplicationController
         return
       end
 
-
       redirect_to root_path
     else
       flash[:alert] = import.error_message
@@ -58,6 +59,7 @@ class HomePageController < ApplicationController
     end
 
   end
+  
   def archives
     current_year = PeopleSecretsantas.maximum('year')
 
