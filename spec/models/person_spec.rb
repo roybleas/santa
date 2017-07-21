@@ -63,4 +63,38 @@ RSpec.describe Person, type: :model do
 		@person.save
 		expect(@person.errors[:name]).to include("has already been taken")
   end
+
+	context "extract non participant" do
+		it "when person no longer belongs to people_secretsantas" do
+			p1 = FactoryGirl.create(:person)
+			p2 = FactoryGirl.create(:person)
+			ps = FactoryGirl.create(:people_secretsanta)
+
+			expect(Person.non_participants.all).to include(p1,p2)
+		end
+		it "when person no longer is a santa_id" do
+			p1 = FactoryGirl.create(:person)
+			p2 = FactoryGirl.create(:person)
+			ps1 = FactoryGirl.create(:people_secretsanta)
+			ps2 = FactoryGirl.create(:people_secretsanta, santa_id: p2.id)
+
+			expect(Person.non_participants.all).to include(p1)
+		end
+		it "when person no longer is a partner_id" do
+			p1 = FactoryGirl.create(:person)
+			p2 = FactoryGirl.create(:person)
+			ps1 = FactoryGirl.create(:people_secretsanta)
+			ps2 = FactoryGirl.create(:people_secretsanta, partner_id: p2.id)
+
+			expect(Person.non_participants.all).to include(p1)
+		end
+		it "when person no longer is a previous_santa_id" do
+			p1 = FactoryGirl.create(:person)
+			p2 = FactoryGirl.create(:person)
+			ps1 = FactoryGirl.create(:people_secretsanta)
+			ps2 = FactoryGirl.create(:people_secretsanta, previous_santa_id: p1.id)
+
+			expect(Person.non_participants.all).to include(p2)
+		end
+	end
 end

@@ -1,15 +1,6 @@
 <div class="container">
-  <div class="well "><h4>
-    <div class="row">
-      <div class="col-sm-10" >
-        <h4>Secret Santa participants for <%= @year %></h4>
-      </div>
-      <div class="col-sm-2">
-        <%= link_to("Delete", people_secretsanta_path(@year), class:"btn btn-info", method: :delete ) %>
-      </div>
-    </div>
+  <div class="well ">
+    <%= render partial: "shared/participants_title", locals: {title: ""} %>
   </div>
-
   <%= render partial: "shared/participants_for_year" %>
-
 </div>

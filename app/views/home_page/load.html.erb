@@ -8,7 +8,7 @@
       <div class="form-group">
         <%= label_tag('currentyear', 'Year:', class: 'col-sm-1')%>
         <div class="col-sm-2">
-          <%=  number_field_tag 'currentyear', @this_year , in: @this_year...2030 , class: 'form-control' %>
+          <%=  number_field_tag 'currentyear', @this_year , min: @this_year , class: 'form-control' %>
         </div>
         <div class="col-sm-9"></div>
       </div>

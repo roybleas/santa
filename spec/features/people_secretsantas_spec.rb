@@ -76,42 +76,72 @@ RSpec.feature "PeopleSecretsantas", type: :feature do
     end
 
   end
+  context "delete" do
+    before(:each) do
+      @ps_current = FactoryGirl.create(:people_secretsanta)
+      ps = FactoryGirl.create(:archived_secretsanta)
+      @ps2 = FactoryGirl.create(:archived_secretsanta)
+      @this_year = ps.year
+    end
 
-  scenario "delete participants list for selected year" do
-    ps_current = FactoryGirl.create(:people_secretsanta)
-    ps = FactoryGirl.create(:archived_secretsanta)
-    ps = FactoryGirl.create(:archived_secretsanta)
-    this_year = ps.year
+    scenario "participants for selected year" do
+      people_count = Person.count
+      visit people_secretsanta_path(@this_year)
+      click_link("Delete")
 
-    visit people_secretsanta_path(this_year)
+      expect(current_path).to eq archives_path
+      expect(PeopleSecretsantas.by_year(@this_year).count).to eq 0
+      expect(page).to have_content("Deleted all 2 participants for year #{@this_year}.")
+      expect(Person.count).to eq people_count - 2
+    end
 
-    click_link("Delete")
+    scenario "only participants for selected year" do
+      ps_older = FactoryGirl.create(:people_secretsanta, year: @this_year - 1, person_id:  @ps2.person_id )
+      people_count = Person.count
 
-    expect(current_path).to eq archives_path
-    expect(PeopleSecretsantas.by_year(this_year).count).to eq 0
-    expect(page).to have_content("Deleted all 2 participants for year #{this_year}.")
-  end
+      visit archives_path
+      click_link(@this_year)
+      expect(current_path).to eq people_secretsanta_path(@this_year)
 
-  scenario "delete only participants list for selected year" do
-    ps_current = FactoryGirl.create(:people_secretsanta)
-    ps = FactoryGirl.create(:archived_secretsanta)
-    ps2 = FactoryGirl.create(:archived_secretsanta)
-    ps_older = FactoryGirl.create(:people_secretsanta, year: ps.year - 1, person_id:  ps2.person_id )
-    people_count = Person.count
-    this_year = ps.year
+      click_link("Delete")
 
-    visit archives_path
-    click_link(this_year)
-    expect(current_path).to eq people_secretsanta_path(this_year)
+      expect(current_path).to eq archives_path
+      expect(PeopleSecretsantas.by_year(@this_year).count).to eq 0
+      expect(Person.count).to eq people_count - 1
+      expect(page).to have_content("Deleted all 2 participants for year #{@this_year}.")
+      expect(page).to have_link(ps_older.year)
+      expect(page).to_not have_link(@this_year)
+    end
 
-    click_link("Delete")
+    scenario "people who are no longer participants" do
+      person = FactoryGirl.create(:person)
+      people_count = Person.count
 
-    expect(current_path).to eq archives_path
-    expect(PeopleSecretsantas.by_year(this_year).count).to eq 0
-    expect(Person.count).to eq people_count
-    expect(page).to have_content("Deleted all 2 participants for year #{this_year}.")
-    expect(page).to have_link(ps_older.year)
-    expect(page).to_not have_link(this_year)
+      visit people_secretsanta_path(@this_year)
+      click_link("Delete")
+      expect(Person.count).to eq people_count - 3
+    end
 
+    scenario "from secret santa list but keep all people as in use" do
+      ps_inuse_1 = FactoryGirl.create(:people_secretsanta, year: @this_year - 1, person_id:  @ps2.person_id )
+      ps_inuse_2 = FactoryGirl.create(:people_secretsanta, year: @this_year - 1, person_id: @ps_current.person_id )
+      people_count = Person.count
+
+      visit people_secretsanta_path(@this_year - 1)
+      click_link("Delete")
+      expect(Person.count).to eq people_count
+    end
+
+    scenario "current year" do
+      people_count = Person.count
+      visit root_path
+
+      click_link("Delete")
+
+      expect(current_path).to eq root_path
+      expect(PeopleSecretsantas.by_year(@ps_current.year).count).to eq 0
+      expect(page).to have_content("Deleted all 1 participants for year #{@ps_current.year}.")
+      expect(Person.count).to eq people_count - 1
+    end
   end
 end
