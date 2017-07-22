@@ -37,7 +37,8 @@ class SantaAllocation
         (gr_index + 1...@gift_recipients.size).each do |gr_idx_2|
           if s.valid?(@gift_recipients[gr_idx_2])
             # 5) If match found swap invalid gift recipient with valid one
-            @gift_recipients[gr_index], @gift_recipients[gr_idx_2] = @gift_recipients[gr_idx_2], @gift_recipients[gr_index]
+            @gift_recipients[gr_index], @gift_recipients[gr_idx_2] =
+                  @gift_recipients[gr_idx_2], @gift_recipients[gr_index]
             break
           end
         end
@@ -46,22 +47,28 @@ class SantaAllocation
         else
           # 6) If no more gift recipients then go back to the beginning and step through
           (0...gr_index).each do |gr_idx_3|
-            if s.valid?(@gift_recipients[gr_idx_3]) && @santas[gr_idx_3].valid?(@gift_recipients[gr_index])
+            if s.valid?(@gift_recipients[gr_idx_3]) &&
+                          @santas[gr_idx_3].valid?(@gift_recipients[gr_index])
               # 7) If both earlier and current are matches swap
-              @gift_recipients[gr_index], @gift_recipients[gr_idx_3] = @gift_recipients[gr_idx_3], @gift_recipients[gr_index]
+              @gift_recipients[gr_index], @gift_recipients[gr_idx_3] =
+                          @gift_recipients[gr_idx_3], @gift_recipients[gr_index]
               break
             end
           end
           if s.valid?(@gift_recipients[@santas.index(s)])
             gr_index += 1
           else
-            @error_message = "Failed to allocate everyone to a Secret Santa #{@santas.inspect} : #{@gift_recipients.inspect}"
+            @error_message = "Failed to allocate everyone to a " \
+              "Secret Santa #{@santas.inspect} : #{@gift_recipients.inspect}"
             return false
           end
         end
       end
     end
+    
+    # allocate results to santa_id
     @santas.each_index { |idx| @santas[idx].santa_id = @gift_recipients[idx]}
+
     validate?
   end
 
@@ -70,7 +77,8 @@ class SantaAllocation
   def validate?
     @santas.each do |s|
       if !s.valid?(s.santa_id)
-        @error_message = "Failed to allocate to a Secret Santa at id #{s.id}:  #{@santas.inspect}"
+        @error_message = "Failed to allocate to a Secret Santa " \
+            "at id #{s.id}:  #{@santas.inspect}"
         return false
       end
     end

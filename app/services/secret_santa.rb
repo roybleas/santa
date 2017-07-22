@@ -4,8 +4,8 @@ class SecretSanta
 
   def initialize( person_secresanta)
     @id = person_secresanta.id
-    @invalid_ids = []
-    @invalid_ids << person_secresanta.person_id
+    
+    @invalid_ids = [ person_secresanta.person_id ]
     @invalid_ids << person_secresanta.partner_id unless person_secresanta.partner_id.nil?
     @invalid_ids << person_secresanta.previous_santa_id unless person_secresanta.previous_santa_id.nil?
   end
