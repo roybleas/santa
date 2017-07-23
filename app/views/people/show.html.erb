@@ -6,8 +6,9 @@
   <table class="table">
     <%= render partial: "shared/participants_table_header", locals: {header_for: "Year"} %>
     <tbody>
-      <%= render partial: "shared/participants_table_by_year", collection: @people_secretsantas, as: :person_secretsanta,
-       locals: {set_path: set_path(@current_year) } %>
+      <%= render partial: "shared/participants_table_by_year",
+                  collection: @people_secretsantas, as: :person_secretsanta,
+                                locals: {set_path: set_path(@current_year) } %>
     </tbody>
   </table>
 </div>

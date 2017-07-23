@@ -69,6 +69,5 @@ RSpec.describe PeopleSecretsantas, type: :model do
         expect(@previous_santa.previous_santas.first).to eq(@secretsanta)
       end
     end
-
   end
 end

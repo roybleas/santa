@@ -3,7 +3,7 @@
 
 ## Restrictions when assigning the Secret Santas:
 - You cannot be your own Secret Santa.
-- You cannot be assigned the same Secret Santa that you got in the previous year.
+- You cannot be assigned the same Secret Santa as the previous year.
 - You cannot be your partner’s Secret Santa.
 
 ## Assumptions
@@ -17,7 +17,7 @@
  and can be used to to identify themselves to their Santa.
 - The number of participants may be different each year
 - A participant may not be included in each yearly event
-- It is valid to have a person who is not in a Santa list but all people referenced in the Santa list must be in the person list.
+- It is valid to have a person who is not in SecretSanta table but all people referenced in the SecretSanta table must be in the person record.
 
 #### Number of participants
 - There will be sufficient number for each person to have a valid Secret Santa allocated to them
@@ -28,8 +28,8 @@
 - A participant may only have one partner each year
 - The partner may be different or the same in another year.
 
-### Distribution of Santas list
-- Each participant will have their own email address to receive the name of the recipient of their gift.
+### Distribution of a participants the Secret Santas roles
+- Receiving the name of the recipient of their Secret Santa gift is outside the scope of the exercise
 
 ## Design Features
 ### File loading
@@ -40,20 +40,19 @@
 - Previously loaded participants will have their details updated.
 - Overwritten participants details will not be kept.  
 - Replaces the current participants and any current Santa selection.
-- A participant who is no longer in the list will not be removed from the list of known persons.
 
 ### Views
-- List of this year's participants.
-- List Santa selections
+- List of this year's participants and santa details.
+- List of all participants
 - Previous years participants and Santa details.
 
 ### Actions
 - Load input file
 - Generate a random Santas for each participant
-- Delete previous Santa lists older than current or previous year. This includes people who are no longer part of a saved Sanata list.
+- Delete Santa lists.
+- Delete people who are no longer part of a saved Sanata list.
 
 ## Database Design
 
 The Secret Santa event is an entity with many to many relationship to participants stored in the people table. Currently the Secret Santa has only one attribute - year. So just the people-secretsantas table has been created. Indexes have been created for each foreign key in the people-secretsantas table. (NB Rails model generate command requires --force-plural.)
-The previous_santa_id field could be selected from previous year record but the data is static once a new year record has been created makes it more convenient to access.
-The year field is assumed to contain clean data and contain a valid value for the current year and validated within the design model. Data cleaning will be done on the input data.
+The previous_santa_id field could be selected from previous year record but the data is static once a new year record has been created it is more convenient to access via the current year people_secretsantas record.

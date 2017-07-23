@@ -16,7 +16,6 @@ RSpec.feature "HomePages", type: :feature do
     visit root_path
 
     expect(current_path).to eq root_path
-
     expect(page).to have_css("h4", text: "Current Secret Santa participants for #{ps.year}")
     expect(page).to have_css("table")
     [/\AParticipant\z/ , /\ASecret Santa for\z/, /\APartner\z/, /\ASecret Santa from previous year\z/ ].each do |header|
@@ -40,9 +39,11 @@ RSpec.feature "HomePages", type: :feature do
 
   end
   context "navigation menu" do
+
     before(:example) do
       ps = FactoryGirl.create(:people_secretsanta)
     end
+
     scenario "import view" do
       visit root_path
       click_link("Import")
@@ -83,7 +84,6 @@ RSpec.feature "HomePages", type: :feature do
       expect(current_path).to eq people_path
       expect(within("//nav"){ find(:xpath, ".//ul/li[contains(@class, 'active')]/a").text }).to eq "Participants"
     end
-
 
     scenario "person view" do
       ps = FactoryGirl.create(:secretsanta_with_santa_partner_previous)
