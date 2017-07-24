@@ -65,7 +65,7 @@ class SantaAllocation
         end
       end
     end
-    
+
     # allocate results to santa_id
     @santas.each_index { |idx| @santas[idx].santa_id = @gift_recipients[idx]}
 
