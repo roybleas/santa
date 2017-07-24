@@ -14,7 +14,6 @@
 FactoryGirl.define do
   factory :person do
     sequence(:name) { |n| "person#{n}" }
-    email { "#{name}@example.com" }
 
     factory :santa do
       sequence(:name) { |n| "santa_#{n}" }

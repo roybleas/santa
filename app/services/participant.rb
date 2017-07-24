@@ -3,9 +3,8 @@ class Participant
   attr_accessor :partner
   attr_writer :duplicate_name
 
-  def initialize(this_name, this_email)
+  def initialize(this_name)
     @person = Person.find_or_initialize_by(name: this_name.strip)
-    @person.email = this_email.strip
     @duplicate_name = false
   end
 

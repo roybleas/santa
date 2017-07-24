@@ -10,10 +10,8 @@
 #
 
 class Person < ActiveRecord::Base
-  VALID_EMAIL = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 
   validates :name, presence: true, length: {maximum: 50}, uniqueness: true
-  validates :email, presence: true, length: {maximum: 255}, format: { with: VALID_EMAIL }
 
   has_many :people_secretsantas, :class_name => 'PeopleSecretsantas'
   has_many :santas, :class_name => 'PeopleSecretsantas', :foreign_key => 'santa_id'

@@ -7,9 +7,9 @@ RSpec.describe "Santa List" do
     before(:context) do
       DatabaseCleaner.start
       @this_year = Date.today.year
-      @participant_1 = Participant.new("person_1","person_1@email.com")
+      @participant_1 = Participant.new("person_1")
       @participant_1.person.save!
-      @participant_2 = Participant.new("person_2","person_2@email.com")
+      @participant_2 = Participant.new("person_2")
       @participant_2.person.save!
       @participant_2.partner = @participant_1.name
       @participant_1.partner = @participant_2.name
@@ -17,7 +17,7 @@ RSpec.describe "Santa List" do
       @previous_person_santa_2 = FactoryGirl.create(:people_secretsanta, year: @this_year - 1)
       @previous_person_santa_1.santa_id = @previous_person_santa_2.id
       @previous_person_santa_1.save
-      @participant_3 = Participant.new(Person.find(@previous_person_santa_1.person_id).name,"person@email.com")
+      @participant_3 = Participant.new(Person.find(@previous_person_santa_1.person_id).name)
       @participant_3.person.save!
     end
     after(:context) { DatabaseCleaner.clean}
@@ -46,7 +46,7 @@ RSpec.describe "Santa List" do
     end
     context "updates previous santa id" do
       it " if participant has same name" do
-        #this step failed but cannot reproduce
+        
         this_year = Date.today.year
         last_year = this_year - 1
         s1 = FactoryGirl.create(:people_secretsanta, year: last_year)
@@ -63,9 +63,9 @@ RSpec.describe "Santa List" do
         santalist = SantaList.new(this_year.to_s,[])
         santalist.update_with_previous_santas
 
-        expect(PeopleSecretsantas.find_by_person_id(s4.person.id).previous_santa_id).to eq s1.person_id
-        expect(PeopleSecretsantas.find_by_person_id(s5.person.id).previous_santa_id).to eq s2.person_id
-        expect(PeopleSecretsantas.find_by_person_id(s6.person.id).previous_santa_id).to be_nil
+        expect(PeopleSecretsantas.find(s4.id).previous_santa_id).to eq s1.person_id
+        expect(PeopleSecretsantas.find(s5.id).previous_santa_id).to eq s2.person_id
+        expect(PeopleSecretsantas.find(s6.id).previous_santa_id).to be_nil
       end
 
       it "but ignores years earlier than previous one" do

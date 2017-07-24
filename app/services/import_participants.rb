@@ -3,9 +3,8 @@ class ImportParticipants
   attr_reader :error_message, :participants
 
   PARTICIPANT_NAME = 0
-  PARTICIPANT_EMAIL = 1
-  PARTNER_NAME = 2
-  PARTNER_EMAIL = 3
+  PARTNER_NAME = 1
+
 
   def initialize(file_path)
     @file_path = file_path
@@ -16,20 +15,25 @@ class ImportParticipants
     begin
 
       CSV.foreach(@file_path) do |row|
-        case row.size
-        when 2
-          participant = create_participant(row[PARTICIPANT_NAME],row[PARTICIPANT_EMAIL])
-          return false if participant.invalid?
-        when 4
-          participant = create_participant(row[PARTICIPANT_NAME],row[PARTICIPANT_EMAIL])
-          return false if participant.invalid?
-          partner = create_participant(row[PARTNER_NAME],row[PARTNER_EMAIL])
-          return false if partner.invalid?
-          participant.partner = partner.name
-          partner.partner = participant.name
-        else
-          @error_message = "Invalid value in Row: #{row}"
-          return false
+        row.each do |input|
+
+          participants = input.split(/;/)
+
+          case participants.size
+          when 1
+            participant = create_participant(participants[PARTICIPANT_NAME])
+            return false if participant.invalid?
+          when 2
+            participant = create_participant(participants[PARTICIPANT_NAME])
+            return false if participant.invalid?
+            partner = create_participant(participants[PARTNER_NAME])
+            return false if partner.invalid?
+            participant.partner = partner.name
+            partner.partner = participant.name
+          else
+            @error_message = "Invalid value in Row: #{row}"
+            return false
+          end
         end
       end
 
@@ -41,13 +45,14 @@ class ImportParticipants
     end
   end
 
+
 private
 
-  def create_participant(name,email)
-    participant = Participant.new(name, email)
+  def create_participant(name)
+    participant = Participant.new(name)
 
     if participant.invalid?
-      @error_message = "Invalid participant #{name} , #{email}"
+      @error_message = "Invalid participant #{name}"
     else
       # verify not already in use
       if  not @participants.select{ |p| p.name == name.strip }.empty?
@@ -59,4 +64,5 @@ private
     end
     return participant
   end
+
 end
