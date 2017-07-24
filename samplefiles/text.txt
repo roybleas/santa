@@ -1,1 +1,1 @@
-not a csv file
+not a suitable csv file
