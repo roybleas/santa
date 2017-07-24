@@ -20,7 +20,7 @@ RSpec.describe "participant" do
     expect(p.name).to eq new_person_name
   end
   it "tries to use an invalid person" do
-    new_person_name = ""
+    new_person_name = " "
     p = Participant.new(new_person_name)
     expect(p.invalid?).to be_truthy
   end
