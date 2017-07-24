@@ -1,5 +1,7 @@
 class HomePageController < ApplicationController
 
+  include ShowMessage
+
   def home
     @year = PeopleSecretsantas.maximum('year')
     if @year.nil?
@@ -10,6 +12,8 @@ class HomePageController < ApplicationController
         include_santas.
         include_previous_santas.
         by_year(@year).order("people.name")
+
+      when_missing_santa_ids_show_message(@year)
     end
   end
 
@@ -59,7 +63,7 @@ class HomePageController < ApplicationController
     end
 
   end
-  
+
   def archives
     current_year = PeopleSecretsantas.maximum('year')
 

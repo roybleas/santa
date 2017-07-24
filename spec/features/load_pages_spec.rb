@@ -62,4 +62,26 @@ RSpec.feature "HomePages", type: :feature do
     expect(page).to have_xpath('//tbody/tr[1]/td[2]',text: ps.santa.name)
     expect(page).to have_xpath('//tbody/tr[1]/td[3]',text: ps.partner.name)
   end
+
+  scenario "warn when Secret Santa not been allocated." do
+    visit load_path
+    attach_file('file', './spec/files/two_names.csv')
+    click_button('Import')
+
+    expect(current_path).to eq root_path
+    expect(page).to_not have_content('Warning: Participants have not all been allocated to be a Secret Santa.')
+
+    next_year = PeopleSecretsantas.maximum('year') + 1
+    click_link('Import')
+    fill_in 'currentyear', with: next_year
+    attach_file('file', './spec/files/two_names.csv')
+    click_button('Import')
+
+    expect(current_path).to eq load_path
+    expect(page).to have_content('Failed to allocate')
+
+    click_link('Home')
+    expect(page).to have_content('Warning: Participants have not all been allocated to be a Secret Santa.')
+
+  end
 end

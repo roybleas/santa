@@ -1,4 +1,6 @@
 class PeopleSecretsantasController < ApplicationController
+  include ShowMessage
+
   def show
     @year = params[:year].to_i
 
@@ -17,6 +19,8 @@ class PeopleSecretsantasController < ApplicationController
       redirect_to archives_path
       return
     end
+
+    when_missing_santa_ids_show_message(@year)
 
   end
 

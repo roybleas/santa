@@ -76,6 +76,17 @@ RSpec.feature "PeopleSecretsantas", type: :feature do
     end
 
   end
+
+  scenario "Invalid Secret Santa  list" do
+    ps_current = FactoryGirl.create(:people_secretsanta)
+    ps1 = FactoryGirl.create(:archived_secretsanta)
+    ps2 = FactoryGirl.create(:archived_secretsanta)
+    ps2.update(santa_id:  nil)
+    visit people_secretsanta_path(ps1.year)
+
+    expect(page).to have_content('Warning: Participants have not all been allocated to be a Secret Santa.')
+  end
+
   context "delete" do
     before(:each) do
       @ps_current = FactoryGirl.create(:people_secretsanta)
