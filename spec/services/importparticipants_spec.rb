@@ -30,21 +30,7 @@ RSpec.describe "import participants file" do
     end
   end
   context "extract" do
-    context "participant with invalid" do
-      it "value" do
-        invalid_file_type_path = "./spec/files/missingvalue.csv"
-        import = ImportParticipants.new(invalid_file_type_path)
-        expect(import.extract?).to be_falsey
-        expect(import.error_message).to include('Invalid value in Row: ["missing name"]')
-      end
-
-      it "information" do
-        invalid_file_type_path = "./spec/files/invalidvalue.csv"
-        import = ImportParticipants.new(invalid_file_type_path)
-        expect(import.extract?).to be_falsey
-        expect(import.error_message).to include('not an email')
-      end
-
+    context "participant as invalid" do
       it "as duplicate name" do
         invalid_file_type_path = "./spec/files/duplicates.csv"
         import = ImportParticipants.new(invalid_file_type_path)
@@ -65,19 +51,12 @@ RSpec.describe "import participants file" do
       it "striping blanks from participants details" do
         expect(import.extract?).to be_truthy
         expect(import.participants[0].name).to eq "Fred Flintstone"
-        expect(import.participants[0].person.email).to eq "fred@rock.com"
       end
 
       it "uses existing person if already exists" do
-        person = FactoryGirl.create(:person, name: "Fred Flintstone", email: "fred@rock.com")
+        person = FactoryGirl.create(:person, name: "Fred Flintstone")
         expect(import.extract?).to be_truthy
         expect(import.participants[0].person).to eq person
-      end
-
-      it "updates email if person already exists" do
-        person = FactoryGirl.create(:person, name: "Fred Flintstone", email: "someother@rock.com")
-        expect(import.extract?).to be_truthy
-        expect(import.participants[0].person.email).to eq "fred@rock.com"
       end
 
       it "adds all extracted people to participants list" do
@@ -101,6 +80,12 @@ RSpec.describe "import participants file" do
         expect(import.error_message).to be_nil
         expect(import.participants[0].partner).to eq import.participants[1].name
         expect(import.participants[1].partner).to eq import.participants[0].name
+      end
+
+      it "has more than one partner " do
+        import = ImportParticipants.new('./spec/files/invalid_partners.csv')
+        expect(import.extract?).to be_falsey
+        expect(import.error_message).to include('Invalid value in Row:')
       end
     end
   end
