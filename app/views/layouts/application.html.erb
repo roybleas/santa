@@ -23,6 +23,7 @@
           <li role="presentation" class="<%= 'active' if current_page?(controller: 'home_page', action: 'load') %>"> <%= link_to "Import", load_path %> </li>
           <li role="presentation" class="<%= 'active' if (current_page?(controller: 'home_page', action: 'archives') or current_page?("/people_secretsantas/#{params[:year]}")) %>"> <%= link_to "Previous Years", archives_path %> </li>
           <li role="presentation" class="<%= 'active' if (current_page?(controller: 'people', action: 'index') or current_page?("/people/#{params[:id]}")) %>"> <%= link_to "Participants", people_path %> </li>
+          <li role="presentation" class="<%= 'active' if current_page?(controller: 'home_page', action: 'help') %>"> <%= link_to "Help", help_path %> </li>
         </ul>
       </div>
     </div>

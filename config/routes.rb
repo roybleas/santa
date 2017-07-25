@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   get 'load' => 'home_page#load'
   post 'import' => 'home_page#import'
   get 'archives' => 'home_page#archives'
-
+  get 'help' => 'home_page#help'
 
   resources :people_secretsantas , param: :year, only: [:show, :destroy]
   resources :people, only: [:show, :index]

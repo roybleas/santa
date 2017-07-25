@@ -69,4 +69,7 @@ class HomePageController < ApplicationController
 
     @years = PeopleSecretsantas.select(:year).distinct.not_current_year.order(year: :desc)
   end
+
+  def help
+  end
 end
