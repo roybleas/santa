@@ -17,9 +17,11 @@ class ImportParticipants
       CSV.foreach(@file_path) do |row|
         row.each do |input|
 
-          participants = input.split(/;/)
+          participants = input.nil? ? [] : input.split(/;/)
 
           case participants.size
+          when 0
+            # ignore
           when 1
             participant = create_participant(participants[PARTICIPANT_NAME])
             return false if participant.invalid?

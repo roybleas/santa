@@ -37,6 +37,17 @@ RSpec.describe "import participants file" do
         expect(import.extract?).to be_falsey
         expect(import.error_message).to include('appears more than once')
       end
+      it "ignores a null participant name" do
+        invalid_file_type_path = "./spec/files/missingname.csv"
+        import = ImportParticipants.new(invalid_file_type_path)
+        expect(import.extract?).to be_truthy
+      end
+      it "as without any names" do
+        invalid_file_type_path = "./spec/files/missinganynames.csv"
+        import = ImportParticipants.new(invalid_file_type_path)
+        expect(import.extract?).to be_falsey
+        expect(import.error_message).to include('Invalid participant')
+      end
     end
 
     context "valid participant" do
